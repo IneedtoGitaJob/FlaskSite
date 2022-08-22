@@ -1,86 +1,118 @@
 from GoogleNews import GoogleNews
 from datetime import date
-from Positivity import GetPositivity
-import base64
 import urllib.request
 import functools
-import re
 from multiprocessing import Pool
 from multiprocessing import cpu_count
 import time
 from urllib.request import urlopen
+import numpy as np
+import nltk
+from nltk.sentiment import SentimentIntensityAnalyzer
+from bs4 import BeautifulSoup
 
-def _decode_google_news_url(url: str) -> str:
-    #print(url)
-    _ENCODED_URL_PREFIX = "news.google.com/./articles/"
-    _ENCODED_URL_RE = re.compile(fr"^{re.escape(_ENCODED_URL_PREFIX)}(?P<encoded_url>[^?]+)")
-    _DECODED_URL_RE = re.compile(rb'^\x08\x13".+?(?P<primary_url>http[^\xd2]+)\xd2\x01')
-
-
-    match = _ENCODED_URL_RE.match(url)
-    #print(match)
-    encoded_text = match.groupdict()["encoded_url"]  # type: ignore
-    #print(encoded_text)
-    encoded_text += "==="  # Fix incorrect padding. Ref: https://stackoverflow.com/a/49459036/
-    decoded_text = base64.urlsafe_b64decode(encoded_text)
-    match = _DECODED_URL_RE.match(decoded_text)
-    primary_url = match.groupdict()["primary_url"]  # type: ignore
-    primary_url = primary_url.decode()
-    return primary_url
-
-def decode_google_news_url(url: str) -> str:
-    return _decode_google_news_url(url)
-
-def DisplayAveragePositivity(searchTopic, Years):
-    #Returns a list of urls from the news
+#Returns a list of urls from the news
+def GetNewsUrls(searchTopic, Years):
     current_year = date.today().year
-    googlenews = GoogleNews()
     urlList = []
+
     for x in range(Years):
-        googlenews = GoogleNews(start='01/01/'+(str)(current_year), end='12/31/'+(str)(current_year))
-        googlenews.get_news(searchTopic)
-        urlList.append(googlenews.get_links())
+        #for y in range(1):
+        googlenews = GoogleNews(start= '1/01/'+(str)(current_year), end= '12/30/'+(str)(current_year))
+        googlenews.search(searchTopic)
+        time.sleep(3)
+        result = googlenews.get_links()
+        #if result is not None:
+        urlList.append(result)
         current_year = current_year-1
+    return (urlList)
 
-    x = []
-    numOfSuccess = 0
-    pos = 0
-    q = []
-
-    for y in (urlList):
-        q = multiProcessList(y)
-        print(q)
-
-
-    return q
-
+#sets up the array of urls to be multiprocessed
 def multiProcessList(y):
-    if __name__ == '__main__':
-        with Pool(cpu_count()) as p:
-         return(p.map(CallPositivity, y))
+    with Pool() as p:
+        tempList = list(p.map(CallPositivity, y))
+    return(tempList)
+
+#Function called on each array
 def CallPositivity(x):
     try:
-        return GetPositivity(decode_google_news_url(x))
+        return(GetPositivity(x))
+    except Exception as error:
+        return(0)
+
+#Returns the average positivity of all the URLS
+def ProcessURLS(urList):
+    averagePositivity = []
+
+    for z in urList:
+
+        for y in z:
+            print(y)
+            q = GetPositivity(y)
+            print (q)
+            averagePositivity.append(np.mean(q))
+
+    return(averagePositivity)
+
+#Entry point
+def GetAverageURLSPositivity(searchTopic, Years):
+    nltk.download("vader_lexicon")
+    urlList = GetNewsUrls(searchTopic, Years)
+    averagePositivity = ProcessURLS(urlList)
+    absolutePos = []
+    for i in averagePositivity:
+        if(i > 0):
+            absolutePos.append(i)
+    x = np.mean(absolutePos)
+    return ("hsl("+(str)(x)+", 100%, 50%)")
+
+#Entry point
+def DisplayPositivity(URL)-> str:
+    nltk.download("vader_lexicon")
+    x = GetPositivity(URL)
+    #No text
+    if (x == -1):
+        return("black")
+    #issue connecting
+    if (x == -2):
+        return("Fail")
+    return ("hsl("+(str)(x)+", 100%, 50%)")
+
+#Returns the positivity of an article
+def GetPositivity(URL)-> int:
+    sia = SentimentIntensityAnalyzer()
+    # Find all text within paragraph tags and find the mean
+    sentiment = 0.0
+    num = 0
+    positivity = -1
+    try:
+        html = urlopen(URL).read()
     except Exception as error:
         print(error)
+        return(-2)
 
-def OoogaBooga(searchTopic, Years):
-    current_year = date.today().year
-    googlenews = GoogleNews()
-    urlList = []
+    soup = BeautifulSoup(html, "html.parser")
+    for data in soup.find_all("p"):
+        # ignore neutral sentences
+        compound = sia.polarity_scores(data.get_text())['compound']
+        if (compound != 0):
+            num = num + 1
+            sentiment = sentiment + compound
+    if (num != 0):
+        if (sentiment >= 0):
+            positivity = (round(60 * (sentiment / num)) + 60)
+        else:
+            positivity = (round(60 * (sentiment / num)) * -1)
+    return positivity
 
-    for x in range(Years):
-        for y in range(12):
-            googlenews = GoogleNews(start= str(y)+'/01/'+(str)(current_year), end= str(y)+'/28/'+(str)(current_year))
-            googlenews.search(searchTopic)
-            print(googlenews.get_links())
-            urlList.append(googlenews.get_links())
-        current_year = current_year-1
-    print(urlList)
+"""
+averagePositivity = []
 
-
-
-
-start_time = time.time()
-OoogaBooga("Israel", 1)
-print("--- %s seconds ---" % (time.time() - start_time))
+for z in urlList:
+    print(z)
+    if __name__ == '__main__':
+        q = multiProcessList(z)
+        print(q)
+        averagePositivity.append(np.mean(q))
+print(averagePositivity)
+"""

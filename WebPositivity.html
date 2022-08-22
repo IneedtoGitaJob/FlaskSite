@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Web Positivity</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="../static/css/Css.css">
+<title>Web Positivity</title>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
 
@@ -21,7 +22,7 @@
     <input type="radio" name="rad" id = "News"> : News
     Number of years(oldest year is 2003): <input type="text" name="inputYears" id="yearsInput"><br>
     <!--<input type="radio" name="rad" id = "Tweets"> : Tweets<br>-->
-    <input type="button" onclick="myFunction()" value="Submit">
+    <input type="button" onclick="myFunction()" value="Submit" class = "button1">
 </form>
 
 
@@ -48,12 +49,15 @@ function checkWeb(TextInput, RadioInput)
     }
     else
     {
+        alert(o)
         document.body.style.backgroundColor = o
+
     }
 
 });
 
 }
+
 
 function checkManyWebs(TextInput, yearsInput)
 {
@@ -65,7 +69,7 @@ function checkManyWebs(TextInput, yearsInput)
           Years: yearsInput
         },
 }).done(function( o ) {
-    
+    alert(o)
     document.body.style.backgroundColor = o
 
     

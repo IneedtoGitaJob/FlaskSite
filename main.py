@@ -1,6 +1,7 @@
 import win32api
 from flask import Flask, render_template,request
-from Positivity import *
+from SearchNews import GetAverageURLSPositivity
+from SearchNews import DisplayPositivity
 import json
 
 app = Flask(__name__)
@@ -27,7 +28,7 @@ def backgroundWebProcess():
 def backgroundManyWebProcess():
     searchTopic = request.form["text"]
     Years = request.form["Years"]
-    return (GetAveragePositivity(searchTopic, (int)(Years)))
+    return (GetAverageURLSPositivity(searchTopic, (int)(Years)))
 
 
 if __name__ == "__main__":

@@ -23,6 +23,10 @@ html{
   -ms-animation: fadeIn ease 5s;
 }
 
+.button1 {
+color: blue;
+}
+
 @keyframes fadeIn {
   0% {
     opacity:0;
