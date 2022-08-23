@@ -54,7 +54,7 @@ def ProcessURLS(urList):
 
     return(averagePositivity)
 
-#Entry point
+#Entry point for checking News positivity
 def GetAverageURLSPositivity(searchTopic, Years):
     nltk.download("vader_lexicon")
     urlList = GetNewsUrls(searchTopic, Years)
@@ -63,10 +63,10 @@ def GetAverageURLSPositivity(searchTopic, Years):
     for i in averagePositivity:
         if(i > 0):
             absolutePos.append(i)
-    x = np.mean(absolutePos)
-    return ("hsl("+(str)(x)+", 100%, 50%)")
+    #x = np.mean(absolutePos)
+    return (" ".join(str(x) for x in absolutePos))
 
-#Entry point
+#Entry point for checking webpage positivity
 def DisplayPositivity(URL)-> str:
     nltk.download("vader_lexicon")
     x = GetPositivity(URL)

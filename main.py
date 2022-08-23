@@ -6,13 +6,12 @@ import json
 
 app = Flask(__name__)
 
-
-#Using the below, the popup message appears on the page load of index.html
-#0x00001000 - This makes the popup appear over the browser window
+#index
 @app.route('/')
 def index():
     return render_template('index.html')
 
+#WebPositivity
 @app.route('/WebPositivity')
 def WebPositivity():
     return render_template('WebPositivity.html')
@@ -20,6 +19,7 @@ def WebPositivity():
 #Get Positivity Of a Website
 @app.route('/backgroundWebProcess', methods=['POST'])
 def backgroundWebProcess():
+    print("hi")
     URL = request.form["text"]
     return (DisplayPositivity(URL))
 
