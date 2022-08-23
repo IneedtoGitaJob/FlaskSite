@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -26,6 +27,10 @@
     <input type="button" onclick="myFunction()" value="Submit" class = "button1">
 </form>
 
+<div class="chart-container">
+    <canvas class = "Canvas" id="Canvas"></canvas>
+</div>
+
 
 </body>
 
@@ -33,7 +38,7 @@
 <script>
 
 //Checks a website for positivity and sets a color to match the positivity
-function checkWeb(TextInput, RadioInput) 
+function checkWeb(TextInput) 
 {
     $.ajax({
   url: '/backgroundWebProcess',
@@ -50,16 +55,15 @@ function checkWeb(TextInput, RadioInput)
     }
     else
     {
-        alert(o)
-        document.body.style.backgroundColor = o
-
+        
+        document.getElementById("Canvas").backgroundColor = o;
     }
 
 });
 
 }
 
-
+//Checks Years of News Stories and returns a graph of the average positivity of each year
 function checkManyWebs(TextInput, yearsInput)
 {
     $.ajax({
@@ -70,17 +74,51 @@ function checkManyWebs(TextInput, yearsInput)
           Years: yearsInput
         },
 }).done(function( o ) {
-    alert(o)
-    document.body.style.backgroundColor = o
+    
+alert(o)
+var xValues = [];
+for (let i = 0; i < yearsInput; i++) {
+  xValues.push(i)
+}
+
+var yValues = o.split(' ').map(function(item) {
+    return parseInt(item, 10);
+});
+alert(yValues)
+new Chart("Canvas", {
+  type: "line",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: "rgba(0,0,0,1.0)",
+      borderColor: "rgba(0,0,0,0.1)",
+      data: yValues
+    }]
+  },
+  options: {responsive: false, maintainAspectRatio: true}
+});
+
 
     
 });
 }
 
-
-//Checks multiple sources about a
 function myFunction() 
 {
+    var xValues = [5,6,7,8,9,10,11,12,13,14,15];
+var yValues = [7,8,8,9,9,9,10,11,14,14,15];
+    new Chart("Canvas", {
+  type: "line",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: "rgba(0,0,0,1.0)",
+      borderColor: "rgba(0,0,0,0.1)",
+      data: yValues
+    }]
+  },
+  options: {maintainAspectRatio: false}
+});
 
     //Store inputs and check for valid inputs
     var TextInput = document.getElementById("Input").value;
