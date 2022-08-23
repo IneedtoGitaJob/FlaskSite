@@ -1,17 +1,19 @@
 body{
-border: 5px solid black;
-margin: 0;
-height: 100%;
-font-size: 30px;
-font-family: "Times New Roman", serif;
-background: linear-gradient(yellow, red);
--webkit-background-size: cover;
--moz-background-size: cover;
--o-background-size: cover;
-background-size: cover;
-text-align: center;
+  border: 5px solid black;
+  margin: 0;
+  height: 100%;
+  font-size: 30px;
+  font-family: "Times New Roman", serif;
+  background: linear-gradient(yellow, red);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  text-align: center;
+  overflow: hidden;
 }
 html{
+  overflow: hidden;
   margin: 0;
   height: 100%;
 }
@@ -21,6 +23,22 @@ html{
   -moz-animation: fadeIn ease 5s;
   -o-animation: fadeIn ease 5s;
   -ms-animation: fadeIn ease 5s;
+}
+
+.Canvas{
+  background-color: white;
+  margin: auto;
+  width: 50vw;
+  height: 50vh;
+  border: 5px solid black;
+  padding: 5px;
+}
+.chart-container{
+  margin: auto;
+  width: 50vw;
+  height: 50vh;
+  border: 5px solid green;
+  padding: 5px;
 }
 
 .button1 {
