@@ -27,7 +27,7 @@ def backgroundWebProcess():
 @app.route('/backgroundNewsProcessMulti', methods=['POST'])
 def backgroundManyWebProcessMulti():
     if __name__ == "__main__":
-
+        return("Fail")
         searchTopic = request.form["text"]
         Years = request.form["Years"]
 
