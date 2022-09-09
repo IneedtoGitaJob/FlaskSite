@@ -26,31 +26,28 @@ def backgroundWebProcess():
 #Get Positivity of News stories
 @app.route('/backgroundNewsProcessMulti', methods=['POST'])
 def backgroundManyWebProcessMulti():
-    return("Fail")
-    if __name__ == "__main__":
-        return("Fail")
-        searchTopic = request.form["text"]
-        Years = request.form["Years"]
+    searchTopic = request.form["text"]
+    Years = request.form["Years"]
 
-        #start_time = time.time()
+    #start_time = time.time()
 
-        # list of Average Positivities for each News Year
-        averagePositivity = []
+    # list of Average Positivities for each News Year
+    averagePositivity = []
 
-        # GetEncoded URList
-        EncodedurlList = GetEncodedUrlList(searchTopic, int(Years))
+    # GetEncoded URList
+    EncodedurlList = GetEncodedUrlList(searchTopic, int(Years))
 
-        # Input: encoded List of Urls
-        # Process 1: decodes list of Urls
-        # Process 2: Gets Positivity of Urls
-        # Output: List of all the positivities of one News year
-        averagePositivity = multiProcessList(EncodedurlList)
+    # Input: encoded List of Urls
+    # Process 1: decodes list of Urls
+    # Process 2: Gets Positivity of Urls
+    # Output: List of all the positivities of one News year
+    averagePositivity = multiProcessList(EncodedurlList)
 
-        #print(averagePositivity)
-        # Remove all articles that failed to connect or that had no text
-        averagePositivity = [pos for pos in averagePositivity if pos > 0]
-        #print(averagePositivity)
-        #print("----------------------------------------------------------------------------------------------"+str(averagePositivity))
+    #print(averagePositivity)
+    # Remove all articles that failed to connect or that had no text
+    averagePositivity = [pos for pos in averagePositivity if pos > 0]
+    #print(averagePositivity)
+    #print("----------------------------------------------------------------------------------------------"+str(averagePositivity))
 
     #print("--- %s seconds ---" % (time.time() - start_time))
     if(len(averagePositivity)==0):
