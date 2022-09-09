@@ -16,7 +16,7 @@ body{
   -ms-background-size: 400% 400%;
   background-size: 400% 400%;
   text-align: center;
-  overflow: hidden;
+  overflow: scroll;
 }
 html{
   overflow: hidden;
