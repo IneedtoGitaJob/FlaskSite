@@ -80,7 +80,6 @@ def GetPositivity(URL)-> int:
 #Calls: GetPositivity
 #Entry point for checking webpage positivity
 def DisplayPositivity(URL)-> str:
-    nltk.download("vader_lexicon")
     x = GetPositivity(URL)
     #No text
     if (x == -1):
