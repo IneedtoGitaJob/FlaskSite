@@ -55,7 +55,3 @@ def backgroundManyWebProcessMulti():
     if(len(averagePositivity)==0):
         return("Fail")
     return (" ".join(str(x) for x in averagePositivity))
-
-#Debugmode
-if __name__ == "__main__":
-    app.run(debug=True)
