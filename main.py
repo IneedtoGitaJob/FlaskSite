@@ -1,4 +1,3 @@
-import win32api
 from flask import Flask, render_template,request
 from GNEWS import DisplayPositivity,GetEncodedUrlList,multiProcessList,GetDecodedUrlPositivity
 import numpy as np
