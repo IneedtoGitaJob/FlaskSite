@@ -1,11 +1,12 @@
-body{
+body
+{
   border: 5px solid black;
   margin: 0;
   height: 100%;
   font-size: 30px;
   font-family: "Times New Roman", serif;
-	background: linear-gradient(-45deg, #2bf718, #ace722, #f3b224, #f3270c);
-	animation: gradient ease 15s infinite;
+  background: linear-gradient(-45deg, #2bf718, #ace722, #f3b224, #f3270c);
+  animation: gradient ease 15s infinite;
   -webkit-animation: gradient ease 15s infinite;
   -moz-animation: gradient ease 15s infinite;
   -o-animation: gradient ease 15s infinite;
@@ -18,12 +19,16 @@ body{
   text-align: center;
   overflow: scroll;
 }
-html{
+
+html
+{
   overflow: hidden;
   margin: 0;
   height: 100%;
 }
-.fade-in {
+
+.fade-in 
+{
   animation: fadeIn ease 5s;
   -webkit-animation: fadeIn ease 5s;
   -moz-animation: fadeIn ease 5s;
@@ -31,7 +36,8 @@ html{
   -ms-animation: fadeIn ease 5s;
 }
 
-.Canvas{
+.Canvas
+{
   background-color: white;
   margin: auto;
   width: 50vw;
@@ -39,21 +45,26 @@ html{
   border: 5px solid black;
   padding: 5px;
 }
-.chart-container{
+
+.chart-container
+{
   margin: auto;
   width: 50vw;
   height: 50vh;
   padding: 5px;
 }
 
-#submitButton {
+#submitButton 
+{
   background-color: white;
   border: 3px solid black;
   cursor: pointer;
   font-size: 16px;
   text-align: center;
 }
-.bottom{
+
+.bottom
+{
   position: relative;
   bottom: -20%;
   margin-left: auto;
@@ -65,18 +76,21 @@ html{
   color: black;
 }
 
-#Progress {
+#Progress 
+{
   width: 100%;
   background-color: grey;
 }
 
-#Bar {
+#Bar 
+{
   width: 0%;
   height: 30px;
   background-color: green;
 }
 
-@keyframes fadeIn {
+@keyframes fadeIn 
+{
   0% {
     opacity:0;
   }
@@ -85,7 +99,8 @@ html{
   }
 }
 
-@-moz-keyframes fadeIn {
+@-moz-keyframes fadeIn 
+{
   0% {
     opacity:0;
   }
@@ -94,7 +109,8 @@ html{
   }
 }
 
-@-webkit-keyframes fadeIn {
+@-webkit-keyframes fadeIn 
+{
   0% {
     opacity:0;
   }
@@ -103,7 +119,8 @@ html{
   }
 }
 
-@-o-keyframes fadeIn {
+@-o-keyframes fadeIn 
+{
   0% {
     opacity:0;
   }
@@ -112,7 +129,8 @@ html{
   }
 }
 
-@-ms-keyframes fadeIn {
+@-ms-keyframes fadeIn 
+{
   0% {
     opacity:0;
   }
@@ -122,62 +140,82 @@ html{
 }
 
 
-@keyframes gradient {
-	0% {
+@keyframes gradient 
+{
+	0%
+	{
 		background-position: 0% 0%;
 	}
-	50% {
+	50%
+	{
 		background-position: 100% 100%;
 	}
-	100% {
+	100%
+	{
 		background-position: 0% 0%;
 	}
 }
 
-@-moz-keyframes gradient {
-	0% {
-		background-position: 0% 50%;
+@-moz-keyframes gradient 
+{
+	0%
+	{
+		background-position: 0% 0%;
 	}
-	50% {
-		background-position: 100% 50%;
+	50%
+	{
+		background-position: 100% 100%;
 	}
-	100% {
-		background-position: 0% 50%;
-	}
-}
-
-@-webkit-keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
+	100%
+	{
+		background-position: 0% 0%;
 	}
 }
 
-@-o-keyframes gradient {
-	0% {
-		background-position: 0% 50%;
+@-webkit-keyframes gradient 
+{
+	0%
+	{
+		background-position: 0% 0%;
 	}
-	50% {
-		background-position: 100% 50%;
+	50%
+	{
+		background-position: 100% 100%;
 	}
-	100% {
-		background-position: 0% 50%;
+	100%
+	{
+		background-position: 0% 0%;
 	}
 }
 
-@-ms-keyframes gradient {
-	0% {
-		background-position: 0% 50%;
+@-o-keyframes gradient 
+{
+	0%
+	{
+		background-position: 0% 0%;
 	}
-	50% {
-		background-position: 100% 50%;
+	50%
+	{
+		background-position: 100% 100%;
 	}
-	100% {
-		background-position: 0% 50%;
+	100%
+	{
+		background-position: 0% 0%;
+	}
+}
+
+@-ms-keyframes gradient 
+{
+	0%
+	{
+		background-position: 0% 0%;
+	}
+	50%
+	{
+		background-position: 100% 100%;
+	}
+	100%
+	{
+		background-position: 0% 0%;
 	}
 }
