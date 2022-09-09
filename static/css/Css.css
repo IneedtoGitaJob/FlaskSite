@@ -4,11 +4,17 @@ body{
   height: 100%;
   font-size: 30px;
   font-family: "Times New Roman", serif;
-  background: linear-gradient(yellow, red);
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+	background: linear-gradient(-45deg, #2bf718, #ace722, #f3b224, #f3270c);
+	animation: gradient ease 15s infinite;
+  -webkit-animation: gradient ease 15s infinite;
+  -moz-animation: gradient ease 15s infinite;
+  -o-animation: gradient ease 15s infinite;
+  -ms-animation: gradient ease 15s infinite;
+  -webkit-background-size: 400% 400%;
+  -moz-background-size: 400% 400%;
+  -o-background-size: 400% 400%;
+  -ms-background-size: 400% 400%;
+  background-size: 400% 400%;
   text-align: center;
   overflow: hidden;
 }
@@ -37,12 +43,37 @@ html{
   margin: auto;
   width: 50vw;
   height: 50vh;
-  border: 5px solid green;
   padding: 5px;
 }
 
-.button1 {
-color: blue;
+#submitButton {
+  background-color: white;
+  border: 3px solid black;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+}
+.bottom{
+  position: relative;
+  bottom: -20%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+} 
+
+.Navigation{
+  color: black;
+}
+
+#Progress {
+  width: 100%;
+  background-color: grey;
+}
+
+#Bar {
+  width: 0%;
+  height: 30px;
+  background-color: green;
 }
 
 @keyframes fadeIn {
@@ -88,4 +119,65 @@ color: blue;
   100% {
     opacity:1;
   }
+}
+
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 0%;
+	}
+	50% {
+		background-position: 100% 100%;
+	}
+	100% {
+		background-position: 0% 0%;
+	}
+}
+
+@-moz-keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+@-webkit-keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+@-o-keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+@-ms-keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
 }

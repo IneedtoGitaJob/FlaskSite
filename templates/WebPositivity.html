@@ -15,19 +15,23 @@
 
 
 <nav>
-|<a href="/">Home</a>
-|</nav>
+<a class = "Navigation" href="/">| Home |</a>
+</nav>
 
+<div>
 <form>
     Input: <input type="text" name="input" id="Input"><br>
     <input type="radio" name="rad" id = "Website" checked="checked"> : Website<br>
-    <input type="radio" name="rad" id = "News"> : News
-    Number of years(oldest year is 2003): <input type="text" name="inputYears" id="yearsInput"><br>
+    <input type="radio" name="rad" id = "News"> : News<br>
+    Number of years(oldest year is 2004): <input type="text" name="inputYears" id="yearsInput"><br>
     <!--<input type="radio" name="rad" id = "Tweets"> : Tweets<br>-->
-    <input type="button" onclick="myFunction()" value="Submit" class = "button1">
+    <input type="button" onclick="executeFunction()" value="Submit" id = "submitButton">
 </form>
-
-<div class="chart-container">
+</div>
+<div id="Progress">
+  <div id="Bar"></div>
+</div>
+<div class="chart-container" id="Container">
     <canvas class = "Canvas" id="Canvas"></canvas>
 </div>
 
@@ -37,9 +41,49 @@
 
 <script>
 
+//Calls: None
+//Fills a load bar arbitrarily, the load bar isn't actually related to progress and is instead a way to show the user that the website is still working 
+function LoadBar(loadBarTimeInterval)
+{
+
+  document.getElementById("submitButton").disabled = true;
+  var id;
+  var i = 0
+  if (i == 0) {
+    i = 1;
+    var elem = document.getElementById("Bar");
+    var width = 1;
+    id = setInterval(frame, loadBarTimeInterval);
+    function frame() {
+      if (width >= 90) {
+        clearInterval(id);
+        i = 0;
+      } else {
+        width++;
+        elem.style.width = width + "%";
+      }
+    }
+  }
+
+  $(document).ajaxStop(
+    
+    function(){
+      clearInterval(id);
+      var elem = document.getElementById("Bar");
+      elem.style.width = "100%";
+      document.getElementById("submitButton").disabled = false;
+    });
+
+}
+
+//Calls: RefreshCanvas, backgroundWebProcess
 //Checks a website for positivity and sets a color to match the positivity
 function checkWeb(TextInput) 
 {
+  canvas = RefreshCanvas();
+
+  $(document).ajaxStart(LoadBar(40));
+
     $.ajax({
   url: '/backgroundWebProcess',
   type: "POST",
@@ -47,7 +91,7 @@ function checkWeb(TextInput)
           text: TextInput
         },
 }).done(function( o ) {
-    
+
     //Failed to connect
     if(o == "Fail")
     {
@@ -55,70 +99,136 @@ function checkWeb(TextInput)
     }
     else
     {
-        
-        document.getElementById("Canvas").backgroundColor = o;
+
+        //Fill Canvas
+        var ctx = canvas.getContext('2d');
+        ctx.fillStyle = o;
+        ctx.fillRect(0,0,canvas.width, canvas.height);
+
+
     }
 
 });
 
 }
 
-//Checks Years of News Stories and returns a graph of the average positivity of each year
+//Calls: RefreshCanvas, backgroundNewsProcessMulti
+//Checks Years of News Stories and returns a pie chart of the average positivity
 function checkManyWebs(TextInput, yearsInput)
 {
+
+  canvas = RefreshCanvas();
+
+  $(document).ajaxStart(LoadBar(200));
+
+    //Get a String of News positivity
     $.ajax({
-  url: "/backgroundNewsProcess",
+  url: "/backgroundNewsProcessMulti",
   type: "POST",
   data: { 
           text: TextInput,
           Years: yearsInput
         },
 }).done(function( o ) {
-    
-alert(o)
-var xValues = [];
-for (let i = 0; i < yearsInput; i++) {
-  xValues.push(i)
-}
 
-var yValues = o.split(' ').map(function(item) {
+
+if(o != "Fail")
+{
+
+var xValues = ["Very Positive", "Positive", "Neutral", "Negative", "Very Negative"];
+
+//Parse the String into an Integer Array
+var RawValues = o.split(' ').map(function(item) {
     return parseInt(item, 10);
 });
-alert(yValues)
-new Chart("Canvas", {
-  type: "line",
+//alert(RawValues)
+var yValues = [0,0,0,0,0];
+
+RawValues.forEach(function(x){
+
+//Very Positive
+if(x >= 80)
+{
+    yValues[0]++;
+}
+else
+{
+//Positive
+if(x >= 60 && x < 80)
+{
+yValues[1]++;
+}
+else
+{
+//Neutral
+if(x >= 40 && x < 60)
+{
+yValues[2]++;
+}
+else
+{
+//Negative
+if(x < 40 && x >= 20)
+{
+yValues[3]++;
+}
+else
+{
+yValues[4]++;  
+}
+}
+}
+}
+
+});
+
+//alert(yValues)
+
+var barColors = [
+  "#00ff00",
+  "#00aa00",
+  "#ffff00",
+  "#aa0000",
+  "#ff0000"
+];
+
+
+
+//Create chart
+new Chart(canvas, {
+  type: "pie",
+  id: "Pie Chart",
   data: {
     labels: xValues,
     datasets: [{
-      backgroundColor: "rgba(0,0,0,1.0)",
-      borderColor: "rgba(0,0,0,0.1)",
+      backgroundColor: barColors,
       data: yValues
     }]
   },
-  options: {responsive: false, maintainAspectRatio: true}
+  options: {
+    maintainAspectRatio: false,
+    title: {
+      display: true,
+      text: "Average News Positivity"
+    }
+  }
 });
+
+}
+else
+{
+    alert("Search Failed")
+}
 
 
     
 });
 }
 
-function myFunction() 
+//Calls: checkManyWebs or checkWeb, VerifyYears
+//Takes and verifies user input then calls checkManyWebs or checkWeb
+function executeFunction() 
 {
-    var xValues = [5,6,7,8,9,10,11,12,13,14,15];
-var yValues = [7,8,8,9,9,9,10,11,14,14,15];
-    new Chart("Canvas", {
-  type: "line",
-  data: {
-    labels: xValues,
-    datasets: [{
-      backgroundColor: "rgba(0,0,0,1.0)",
-      borderColor: "rgba(0,0,0,0.1)",
-      data: yValues
-    }]
-  },
-  options: {maintainAspectRatio: false}
-});
 
     //Store inputs and check for valid inputs
     var TextInput = document.getElementById("Input").value;
@@ -149,13 +259,13 @@ var yValues = [7,8,8,9,9,9,10,11,14,14,15];
             }
             else
             {
-                if(yearsInput != 0)
+                if(VerifyYears(yearsInput))
                 {
                     checkManyWebs(TextInput, yearsInput)
                 }
                 else
                 {
-                    alert("No years input given")
+                    alert("Invalid years input")
                 }
                 
             }
@@ -166,6 +276,38 @@ var yValues = [7,8,8,9,9,9,10,11,14,14,15];
         
     
 
+}
+
+//Calls:None
+//Verify that the given years is a number that is within the timerange 2004-currentyear
+function VerifyYears(yearsInput)
+{
+    var currentYear = new Date().getFullYear() ;
+    if(Number.isInteger(Number(yearsInput)) && (yearsInput != 0) &&  ((currentYear - 2004) >= yearsInput))
+    {
+        return(true)
+    }
+    else
+    {
+        return(false)
+    }
+ 
+}
+
+//Calls: None
+//Destroy the current Canvas and replace it with a new one
+function RefreshCanvas()
+{
+
+  //Create A New Canvas 
+  var CanvasToBeDestroyed = document.getElementById("Canvas");
+  CanvasToBeDestroyed.remove();
+  var Container = document.getElementById("Container");
+  var canvas = document.createElement("Canvas");
+  canvas.className = "Canvas"
+  canvas.id = "Canvas"
+  Container.appendChild(canvas)
+  return(canvas)
 }
 
 
