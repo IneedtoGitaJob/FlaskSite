@@ -1,7 +1,6 @@
 from GoogleNews import GoogleNews
 import datetime
 import requests
-from nltk.sentiment import SentimentIntensityAnalyzer
 import urllib.request
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
