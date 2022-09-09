@@ -26,6 +26,7 @@ def backgroundWebProcess():
 #Get Positivity of News stories
 @app.route('/backgroundNewsProcessMulti', methods=['POST'])
 def backgroundManyWebProcessMulti():
+    return("Fail")
     if __name__ == "__main__":
         return("Fail")
         searchTopic = request.form["text"]
