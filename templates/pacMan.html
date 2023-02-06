@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<title>Pac Man</title>
+<link rel="stylesheet" type="text/css" href="../static/css/Css.css">
+</head>
+
+<body class = 'pacManBody'>
+
+    <div class="Navigation">
+        <a href="/" class="NavLink">Home</a>
+        <a href="/WebPositivity" class = "NavLink">WebPositivity</a>
+        <a href="/Wiki" class = "NavLink">WikiLinks</a>
+        <a href= ""><img src="../static/images/Github.png" alt="Github"></a>
+      </div>
+    <div class = "PacManDivWrapper">
+    <div id = "pacManDiv" class="PacManStage">
+        <img id = "pacManObj" class="PacManImg" src = "../static/images/pacMan.png">
+        <img id = "Pinky" class="GhostImg" src = "../static/images/Pinky.png">
+        <img id = "Blinky" class="GhostImg" src = "../static/images/Blinky.png">
+        <img id = "Inky" class="GhostImg" src = "../static/images/Inky.png">
+        <img id = "Clyde" class="GhostImg" src = "../static/images/Clyde.png">
+        <p id = "start">Ready ?</p>
+    </div>
+    </div>
+    <div class = "score">
+        <h1>Score</h1>
+        <p id = "scoreNumber">0</p>
+        <h1>Timer</h1>
+        <p id = "minuteNumber" style="display:inline">0</p>
+        <p style="display:inline">:</p>
+        <p id = "secondNumber" style="display:inline">00</p>
+        <p></p>
+        <button onclick="Mute()" class = "pacManButton">Mute</button>
+        <button id = "startButton"onclick="init()" class = "pacManButton">Start</button>
+    </div>
+
+    <script src="../static/javascript/pacMan.js"></script> 
+</body>
+</html>
