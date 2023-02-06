@@ -1,6 +1,5 @@
 from flask import Flask, render_template,request
-from GNEWS import DisplayPositivity,GetEncodedUrlList,multiProcessList,GetDecodedUrlPositivity
-import numpy as np
+from GNEWS import DisplayPositivity,GetEncodedUrlList,multiProcessList,getTwitterPositivity,getWikiLinks
 import json
 
 app = Flask(__name__)
@@ -15,6 +14,16 @@ def index():
 def WebPositivity():
     return render_template('WebPositivity.html')
 
+#pacman
+@app.route('/pacMan')
+def pacMan():
+    return render_template('pacMan.html')
+
+#pacman
+@app.route('/Wiki')
+def Wiki():
+    return render_template('wikiLinks.html')
+
 #Calls DisplayPositivity
 #Get Positivity Of a Website
 @app.route('/backgroundWebProcess', methods=['POST'])
@@ -26,30 +35,45 @@ def backgroundWebProcess():
 #Get Positivity of News stories
 @app.route('/backgroundNewsProcessMulti', methods=['POST'])
 def backgroundManyWebProcessMulti():
-    searchTopic = request.form["text"]
+    if __name__ == "__main__":
+        searchTopic = request.form["text"]
+        Years = request.form["Years"]
+
+        # list of Average Positivities for each News Year
+        averagePositivity = []
+
+        # GetEncoded URList
+        EncodedurlList = GetEncodedUrlList(searchTopic, int(Years))
+
+        # Input: encoded List of Urls
+        # Process 1: decodes list of Urls
+        # Process 2: Gets Positivity of Urls
+        # Output: List of all the positivities of one News year
+        averagePositivity = multiProcessList(EncodedurlList)
+
+
+        # Remove all articles that failed to connect or that had no text
+        averagePositivity = [pos for pos in averagePositivity if pos > 0]
+
+        if(len(averagePositivity)==0):
+            return("Fail")
+        return (" ".join(str(x) for x in averagePositivity))
+
+    return("Fail")
+
+@app.route('/wikiLinksProcess', methods=['POST'])
+def wikiLinksProcess():
+    searchRequest = request.form["searchRequest"]
+    #wikiLinks = getWikiLinks(searchRequest)
+    jsonWikiLinks = json.dumps(getWikiLinks(searchRequest), indent=0)
+    return (jsonWikiLinks)
+
+@app.route('/twitterProcess', methods=['POST'])
+def twitterProcess():
+    searchRequest = request.form["text"]
     Years = request.form["Years"]
+    return (getTwitterPositivity(searchRequest, int(Years)))
 
-    #start_time = time.time()
-
-    # list of Average Positivities for each News Year
-    averagePositivity = []
-
-    # GetEncoded URList
-    EncodedurlList = GetEncodedUrlList(searchTopic, int(Years))
-
-    # Input: encoded List of Urls
-    # Process 1: decodes list of Urls
-    # Process 2: Gets Positivity of Urls
-    # Output: List of all the positivities of one News year
-    averagePositivity = multiProcessList(EncodedurlList)
-
-    #print(averagePositivity)
-    # Remove all articles that failed to connect or that had no text
-    averagePositivity = [pos for pos in averagePositivity if pos > 0]
-    #print(averagePositivity)
-    #print("----------------------------------------------------------------------------------------------"+str(averagePositivity))
-
-    #print("--- %s seconds ---" % (time.time() - start_time))
-    if(len(averagePositivity)==0):
-        return("Fail")
-    return (" ".join(str(x) for x in averagePositivity))
+#Debugmode
+if __name__ == "__main__":
+    app.run(debug=True)
