@@ -1,12 +1,195 @@
-body
-{
+/*Document*/
+body{
+  overflow: scroll;
+}
+
+html{
+  height: 100%;
+}
+
+/*Index*/
+
+.indexBody{
+  height: 100%;
+}
+
+.indexNavLinksDivWrapper{
+  display: inline-block;
+  background-color: black;
+  height: 100%;
+  margin: 0;
+}
+
+.PacManIndex{
+  border: 5px solid purple;
+  height: 100%;
+  width: 34%;
+  background-image: url(../images/PacMan\ Background.png);
+  background-size:  cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  float: left;
+  text-align: center;
+  font-size: 30px;
+  color: white;
+}
+
+.WebPositivityIndex{
+  border: 5px solid yellow;
+  margin: 0;
+  height: 100%;
+  font-size: 30px;
+  font-family: "Times New Roman", serif;
+	background: linear-gradient(-45deg, #2bf718, #ace722, #f3b224, #f3270c);
+	animation: gradient ease 15s infinite;
+  -webkit-animation: gradient ease 15s infinite;
+  -moz-animation: gradient ease 15s infinite;
+  -o-animation: gradient ease 15s infinite;
+  -ms-animation: gradient ease 15s infinite;
+  -webkit-background-size: 400% 400%;
+  -moz-background-size: 400% 400%;
+  -o-background-size: 400% 400%;
+  -ms-background-size: 400% 400%;
+  background-size: 400% 400%;
+  text-align: center;
+  overflow: hidden;
+  width: 33%;
+  float: left ;
+}
+
+.WikiIndex{
+  border: 5px solid green;
+  height: 100%;
+  width: 33%;
+  float: left ;
+  text-align: center;
+  font-size: 30px;
+  background-image: url(../images/wikiBackground.PNG);
+  background-size:  cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.fade-in {
+  text-align: center;
+  background-color: green;
+  animation: fadeIn ease 10s;
+  -webkit-animation: fadeIn ease 10s;
+  -moz-animation: fadeIn ease 10s;
+  -o-animation: fadeIn ease 10s;
+  -ms-animation: fadeIn ease 10s;
+}
+
+.bottom{
+  position: relative;
+  bottom: -20%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+} 
+
+/*pacMan*/
+.pacManBody{
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, black, #001,grey);
+  margin: 0;
+}
+
+.PacManStage{
+  height: 500px;
+  width: 500px;
+  background-image: url(../images/PacMan\ Background.png);
+  background-size:  contain;
+  background-repeat: no-repeat;
+  float:left;
+}
+
+.PacManDivWrapper{
+  border: 5px solid black;
+  height:100%;
+  width: 500px;
+  background-color: black;
+  float: left;
+}
+
+.score{
+  border: 5px solid black;
+  color: white;
+  font-size: x-large;
+  float:left;
+  border-style: solid;
+  border-width: 5px;
+  text-align: center;
+  background-color: #000;
+}
+
+#scoreNumber{
+  font-size:xx-large;
+}
+
+.PacManImg{
+  height: 5%;
+  width: 5%;
+  position: relative;
+  visibility: hidden;
+}
+
+.GhostImg{
+  height: 5%;
+  width: 5%;
+  position: relative;
+  visibility: hidden;
+}
+
+#start{
+  position: absolute;
+  left: 205px;
+  top: 270px;
+  color: yellow;
+}
+
+.pacManButton {
+  background-color: #fff000;
+  border-radius: 12px;
+  box-sizing: border-box;
+  border: 10;
+  color: #000;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 10px 15px;
+  text-align: center;
+  transition: 200ms;
+  width: 100%;
+  font-size: 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.pacManButton:not(:disabled):hover,
+.pacManButton:not(:disabled):focus {
+  outline: 0;
+  background: #f4e603;
+  box-shadow: 0 0 0 2px rgba(0,0,0,.2), 0 3px 8px 0 rgba(0,0,0,.15);
+}
+
+.pacManButton:disabled {
+  filter: saturate(0.2) opacity(0.5);
+  -webkit-filter: saturate(0.2) opacity(0.5);
+  cursor: not-allowed;
+}
+
+/*WebPositivity*/
+
+.WebPositivityBody{
   border: 5px solid black;
   margin: 0;
   height: 100%;
   font-size: 30px;
   font-family: "Times New Roman", serif;
-  background: linear-gradient(-45deg, #2bf718, #ace722, #f3b224, #f3270c);
-  animation: gradient ease 15s infinite;
+	background: linear-gradient(-45deg, #2bf718, #ace722, #f3b224, #f3270c);
+	animation: gradient ease 15s infinite;
   -webkit-animation: gradient ease 15s infinite;
   -moz-animation: gradient ease 15s infinite;
   -o-animation: gradient ease 15s infinite;
@@ -20,24 +203,7 @@ body
   overflow: scroll;
 }
 
-html
-{
-  overflow: hidden;
-  margin: 0;
-  height: 100%;
-}
-
-.fade-in 
-{
-  animation: fadeIn ease 5s;
-  -webkit-animation: fadeIn ease 5s;
-  -moz-animation: fadeIn ease 5s;
-  -o-animation: fadeIn ease 5s;
-  -ms-animation: fadeIn ease 5s;
-}
-
-.Canvas
-{
+.Canvas{
   background-color: white;
   margin: auto;
   width: 50vw;
@@ -46,51 +212,75 @@ html
   padding: 5px;
 }
 
-.chart-container
-{
+.chart-container{
   margin: auto;
   width: 50vw;
   height: 50vh;
   padding: 5px;
 }
 
-#submitButton 
-{
-  background-color: white;
-  border: 3px solid black;
+.submitButton {
+  background-color: #cf245f;
+  background-image: linear-gradient(to bottom right, red, yellow, green);
+  border: 0;
+  border-radius: .25rem;
+  box-sizing: border-box;
+  color: black;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 28px;
   text-align: center;
 }
 
-.bottom
-{
-  position: relative;
-  bottom: -20%;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-} 
-
-.Navigation{
-  color: black;
-}
-
-#Progress 
-{
+#Progress {
   width: 100%;
-  background-color: grey;
+  background-color: white;
+  border-style: solid;
+  border-width: 5px;
+  border-color: black;
 }
 
-#Bar 
-{
+#Bar {
   width: 0%;
   height: 30px;
   background-color: green;
 }
 
-@keyframes fadeIn 
-{
+/*Wiki*/
+
+.center{
+  text-align: center;
+}
+
+#cy{
+  width: 100%;
+  height: 100%;
+  font-size: 14;
+  display: block;
+  background-color: #fff000;
+}
+
+.wikiLinkBody{
+  margin: 0;
+  height: 100%;
+}
+
+/*all*/
+.Navigation{
+  background-color: #000;
+  text-align: center;
+  font-size: 30px;
+  font-family: "Times New Roman", serif;
+}
+
+.NavLink{
+  color: white;
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
+@keyframes fadeIn {
   0% {
     opacity:0;
   }
@@ -99,8 +289,7 @@ html
   }
 }
 
-@-moz-keyframes fadeIn 
-{
+@-moz-keyframes fadeIn {
   0% {
     opacity:0;
   }
@@ -109,8 +298,7 @@ html
   }
 }
 
-@-webkit-keyframes fadeIn 
-{
+@-webkit-keyframes fadeIn {
   0% {
     opacity:0;
   }
@@ -119,8 +307,7 @@ html
   }
 }
 
-@-o-keyframes fadeIn 
-{
+@-o-keyframes fadeIn {
   0% {
     opacity:0;
   }
@@ -129,8 +316,7 @@ html
   }
 }
 
-@-ms-keyframes fadeIn 
-{
+@-ms-keyframes fadeIn {
   0% {
     opacity:0;
   }
@@ -140,82 +326,62 @@ html
 }
 
 
-@keyframes gradient 
-{
-	0%
-	{
+@keyframes gradient {
+	0% {
 		background-position: 0% 0%;
 	}
-	50%
-	{
+	50% {
 		background-position: 100% 100%;
 	}
-	100%
-	{
+	100% {
 		background-position: 0% 0%;
 	}
 }
 
-@-moz-keyframes gradient 
-{
-	0%
-	{
-		background-position: 0% 0%;
+@-moz-keyframes gradient {
+	0% {
+		background-position: 0% 50%;
 	}
-	50%
-	{
-		background-position: 100% 100%;
+	50% {
+		background-position: 100% 50%;
 	}
-	100%
-	{
-		background-position: 0% 0%;
+	100% {
+		background-position: 0% 50%;
 	}
 }
 
-@-webkit-keyframes gradient 
-{
-	0%
-	{
-		background-position: 0% 0%;
+@-webkit-keyframes gradient {
+	0% {
+		background-position: 0% 50%;
 	}
-	50%
-	{
-		background-position: 100% 100%;
+	50% {
+		background-position: 100% 50%;
 	}
-	100%
-	{
-		background-position: 0% 0%;
+	100% {
+		background-position: 0% 50%;
 	}
 }
 
-@-o-keyframes gradient 
-{
-	0%
-	{
-		background-position: 0% 0%;
+@-o-keyframes gradient {
+	0% {
+		background-position: 0% 50%;
 	}
-	50%
-	{
-		background-position: 100% 100%;
+	50% {
+		background-position: 100% 50%;
 	}
-	100%
-	{
-		background-position: 0% 0%;
+	100% {
+		background-position: 0% 50%;
 	}
 }
 
-@-ms-keyframes gradient 
-{
-	0%
-	{
-		background-position: 0% 0%;
+@-ms-keyframes gradient {
+	0% {
+		background-position: 0% 50%;
 	}
-	50%
-	{
-		background-position: 100% 100%;
+	50% {
+		background-position: 100% 50%;
 	}
-	100%
-	{
-		background-position: 0% 0%;
+	100% {
+		background-position: 0% 50%;
 	}
 }
