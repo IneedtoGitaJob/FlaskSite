@@ -1,59 +1,93 @@
-function checkTwitter()
+//Get and Display wiki Links
+function displayWikiLinks()
 {
-  alert("boo")
-  canvas = RefreshCanvas();
+
+  //Get text input and reset
   Input = document.getElementById("Input");
   searchTopic = Input.value;
   Input.value = '';
 
-    $.ajax({
+  $.ajax({
   url: "/wikiLinksProcess",
   type: "POST",
   data: { 
-            searchRequest: searchTopic
+          searchRequest: searchTopic
         },
-}).done(function(jsonWikiLinks)
-  {
-    const parsedWikiLinks = JSON.parse(jsonWikiLinks);
-
-   let parsedWikiLinksvalues = Object.keys(parsedWikiLinks);
-   let parsedWikiLinksKeys = Object.values(parsedWikiLinks);
-
-
-    new Chart(canvas, {
-      type: "pie",
-      data: {
-        labels: parsedWikiLinksKeys,
-        datasets: [{
-          backgroundColor: barColors,
-          data: parsedWikiLinksvalues
-        }]
-      },
-      options: {
-        title: {
-          display: true,
-          text: "Wiki Links"
-        }
-      }
-    });
-
-  });
+        }).done(function(jsonWikiLinks)
+            {
+            //parse
+            const parsedWikiLinks = JSON.parse(jsonWikiLinks);
+            let parsedWikiLinksvalues = Object.keys(parsedWikiLinks);
+            //let parsedWikiLinksKeys = Object.values(parsedWikiLinks);
+            //Create the cyto object and display with links from parsed wikiLinks
+            cyto(parsedWikiLinksvalues,searchTopic)
+              
+            });
 
 }
 
-//Calls: None
-//Destroy the current Canvas and replace it with a new one
-function RefreshCanvas()
+function cyto(parsedWikiLinksvalues,searchTopic)
 {
-  //Create A New Canvas 
-  var CanvasToBeDestroyed = document.getElementById("wikiCanvas");
-  CanvasToBeDestroyed.remove();
-  var Container = document.getElementById("wikichartContainer");
-  var canvas = document.createElement("wikiCanvas");
-  canvas.className = "wikiCanvas"
-  canvas.id = "wikiCanvas"
-  alert("hfdselo")
-  Container.appendChild(canvas)
-  alert("he46lo")
-  return(canvas)
+  var cy = cytoscape({
+
+    container: document.getElementById('cy'), // container to render in
+    
+    elements: [
+    ],
+    
+    style: [ // the stylesheet for the graph
+      {
+        selector: 'node',
+        style: {
+          'background-color': '#666',
+          'label': 'data(id)'
+        }
+      },
+    
+      {
+        selector: 'edge',
+        style: {
+          'width': 3,
+          'line-color': '#ccc',
+          'target-arrow-color': '#ccc',
+          'target-arrow-shape': 'triangle',
+          'curve-style': 'bezier'
+        }
+      }
+    ],
+    
+    layout: {
+      name: 'grid',
+      rows: 1
+    }
+    
+    });
+
+    //Add the search term to the center of the graph
+    cy.add({
+      group: 'nodes',
+      data: { id:searchTopic,weight: 75,height:100,width:100 },
+      position: { x: 200, y: 200 }
+  });
+
+  //add all other links
+    for(let x in parsedWikiLinksvalues)
+    {
+      cy.add({
+        group: 'nodes',
+        data: { id:parsedWikiLinksvalues[x],weight: 75 },
+        position: { x: 200, y: 200 }
+    });
+    cy.add({
+      group: 'edges',
+      data: { id: (parsedWikiLinksvalues[x]+"edge"), source: parsedWikiLinksvalues[x], target: searchTopic },
+      position: { x: 200, y: 200 }
+  });
+    }
+    //set layout
+    var layout = cy.layout({
+      name: 'concentric'
+    });
+    
+    layout.run();
 }

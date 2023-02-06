@@ -294,14 +294,7 @@ function VerifyYears(yearsInput)
 //Destroy the current Canvas and replace it with a new one
 function RefreshCanvas()
 {
-
-  //Create A New Canvas 
-  var CanvasToBeDestroyed = document.getElementById("Canvas");
-  CanvasToBeDestroyed.remove();
-  var Container = document.getElementById("Container");
-  var canvas = document.createElement("Canvas");
-  canvas.className = "Canvas"
-  canvas.id = "Canvas"
-  Container.appendChild(canvas)
+  var canvas = document.getElementById("Canvas");
+  canvas.width+=0
   return(canvas)
 }
