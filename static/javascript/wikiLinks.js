@@ -15,13 +15,19 @@ function displayWikiLinks()
         },
         }).done(function(jsonWikiLinks)
             {
+            if(jsonWikiLinks != -2)
+            {
             //parse
             const parsedWikiLinks = JSON.parse(jsonWikiLinks);
             let parsedWikiLinksvalues = Object.keys(parsedWikiLinks);
             //let parsedWikiLinksKeys = Object.values(parsedWikiLinks);
             //Create the cyto object and display with links from parsed wikiLinks
             cyto(parsedWikiLinksvalues,searchTopic)
-              
+            }
+            else
+            {
+              alert("Search Not a valid wiki search")
+            }  
             });
 
 }

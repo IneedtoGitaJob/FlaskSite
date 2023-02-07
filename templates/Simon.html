@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<title>Simon</title>
+<link rel="stylesheet" type="text/css" href="../static/css/Css.css">
+</head>
+
+<body>
+<div class = "fade-in"><h1>Simon</h1></div>
+<nav>
+<a class = "Navigation" href="/">| Home |</a>
+</nav>
+
+<Button onclick="startGame()" value="Submit" id = "startButton"></Button>
+
+<Button onclick="executeFunction()"  id = "redButton"></Button>
+<Button onclick="executeFunction()"  id = "blueButton"></Button>
+<Button onclick="executeFunction()"  id = "greenButton"></Button>
+<Button onclick="executeFunction()"  id = "yellowButton"></Button>
+
+</body>
+<script>
+
+function executeFunction()
+{
+}
+
+function startGame()
+{
+    var arr = [];
+    c = ''
+    for(var q = 0; q < 100; q++)
+    {
+        switch(Math.floor(Math.random() * 4)) 
+        {
+        case 0:
+            c = 'redButton'
+            break;
+        case 1:
+            c = 'blueButton'
+            break;
+        case 2:
+            c = 'greenButton'
+            break;
+        case 3:
+            c = 'yellowButton'
+            break;
+        default:
+            break;
+        
+        }
+        arr.push(c)
+        showPattern(arr)
+    }
+
+
+}
+
+    //console.log(arr)
+
+    function showPattern(arr) 
+{
+    console.log(arr)
+    arr.forEach((color, index) => {
+    setTimeout(() => {
+      activate(color);
+    }, (index + 1) * 1005);
+  });
+
+ 
+}
+
+function activate(color)
+{
+
+//Play sound
+//document.getElementById(c).style.backgroundColor = "white";
+elem = document.getElementById(color)
+elem.style.animation="changeColor 1s ease-out";
+setTimeout(() => {
+    elem.removeAttribute("style");
+  }, 1000);
+
+
+}
+
+
+
+</script>
+</html>
