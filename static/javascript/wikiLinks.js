@@ -15,6 +15,7 @@ function displayWikiLinks()
         },
         }).done(function(jsonWikiLinks)
             {
+            //If the wiki url isnt valid
             if(jsonWikiLinks != -2)
             {
             //parse
@@ -32,6 +33,7 @@ function displayWikiLinks()
 
 }
 
+//Create the cytoscape object
 function cyto(parsedWikiLinksvalues,searchTopic)
 {
   var cy = cytoscape({

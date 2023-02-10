@@ -1,3 +1,52 @@
+$(document).ready(function(){
+    $.getJSON("../static/Json/Scores.json", function(result){
+          const scores = JSON.parse(JSON.stringify(result));
+          fillHighScores(scores);
+      });
+    });
+
+//Fill Highscore table from JSON file
+function fillHighScores(scores)
+{
+    let scoresTable = document.getElementById("highScoresTable");
+
+    for(i in scores.scores)
+    {
+        console.log(scores.scores[i]);
+        const name = scores.scores[i].No;
+        const Score = scores.scores[i].Score;
+    
+        //Create row
+        var entry = scoresTable.insertRow();
+    
+        //Create Cells
+        var nameEntry = entry.insertCell(0);
+        var ScoreEntry = entry.insertCell(1);
+    
+        //Append text to cell
+        let newName = document.createTextNode(name);
+        nameEntry.appendChild(newName);
+        let newScore = document.createTextNode(Score);
+        ScoreEntry.appendChild(newScore);
+    }
+}
+
+
+//If we have won a pacMan game let the user add their name to the score
+if(window.location.href.indexOf("?") > -1)
+{
+let startButton = document.getElementById("startButton");
+startButton.disabled = true;
+let highScoreNameInput = document.getElementById("highScoreNameInput");
+highScoreNameInput.disabled = false;
+}
+
+function updateScores()
+{
+    let highScoreNameInput = document.getElementById("highScoreNameInput");
+    
+}
+
 //Sprite Objects
 var pacManObj = null;
 var Pinky = null;
@@ -211,8 +260,7 @@ function change()
 //Decide in which direction the ghost will move/ contains the Ghost AI
 //Helper functions:pacManGhostCollisionHandle, moveInNewDirection
 function GhostMove(Ghost)
-{
-
+{  
     //Check to see if we are currently in the same space as Pacman
     pacManGhostCollisionHandle(Ghost); 
 
@@ -252,7 +300,7 @@ function GhostMove(Ghost)
     }
 
     //Check to see if we have moved into the same space as Pacman
-    pacManGhostCollisionHandle(Ghost);        
+    pacManGhostCollisionHandle(Ghost);       
 }
 
 //Randomly Move in a new direction
@@ -371,6 +419,7 @@ function GhostMoveRight(Ghost)
     {
         Ghost.img.style.left = parseFloat(Ghost.img.style.left) + 3.2 + "%";
         Ghost.location[1]++;
+        return 1;//bruh
     }
     return 0;
 }
@@ -504,9 +553,14 @@ function removePellet()
             moveInformation.map[pacManObj.location[0]][pacManObj.location[1]] = 3;
 
             //If all pellets have been eaten win the game
-            if(document.getElementById("pacManDiv").childNodes.length == 13){
-                window.location.reload();
-            }   
+            if(document.getElementById("pacManDiv").childNodes.length >= 13)
+            {
+                let score = parseInt(document.getElementById("scoreNumber").innerHTML)
+
+               let url = window.location.href;
+                url += "?param="+score
+               window.location.href = url;
+            }
 }
 
 //Respawn the eaten Ghost at the middle of the screen
@@ -572,7 +626,7 @@ function restartGhost(Ghost)
         moveInformation.ClydeInterval = setInterval(function () {GhostMove(Clyde)}, 110);
         break;
     }
-
+    
 }
 
 //Starts BlueMode that allows pacMan to eat ghosts
@@ -644,18 +698,24 @@ for(var y = 0; y < moveInformation.map.length; y++)
 //Create and add the pellets to the document
 function addPellet(y, x, size)
 {
-        const image = document.createElement('img');
-        image.src = "../static/images/"+size+".png";
-        image.id = y +'!'+ x;
-        image.style.position = "fixed";
-        image.style.left = (x+.5)*16 +'px';
-        image.style.top = (y+3.5)*16 +'px';
-        const element = document.getElementById("pacManDiv");
-        element.appendChild(image);
+    const image = document.createElement('img');
+    image.src = "../static/images/"+size+".png";
+    image.id = y +'!'+ x;
+    image.style.position = "fixed";
+    image.style.left = (x+.5)*16 +'px';
+    image.style.top = (y+3.5)*16 +'px';
+    const element = document.getElementById("pacManDiv");
+    element.appendChild(image);
 }
 
 //Mutes and Unmutes
 function Mute()
 {
     audio.muted = !audio.muted;
+}
+
+//Update scores JSON with a new high score
+function updateScores()
+{
+
 }

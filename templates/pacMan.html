@@ -36,7 +36,20 @@
         <button onclick="Mute()" class = "pacManButton">Mute</button>
         <button id = "startButton"onclick="init()" class = "pacManButton">Start</button>
     </div>
-
+    <div class = "highScores">
+        <table id = "highScoresTable">
+            <tr><th>Leaderboard</th></tr>
+            <tr>
+                <th>Name</th>
+                <th>Score</th>
+              </tr>
+        </table>
+    </div>
+    <div class = "highScoreInputContainer">
+        <input type="text" id="highScoreNameInput"disabled >
+        <button id="highScoreSubmitButton" onclick="updateScores()" class = "pacManButton"></button>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> 
     <script src="../static/javascript/pacMan.js"></script> 
 </body>
 </html>

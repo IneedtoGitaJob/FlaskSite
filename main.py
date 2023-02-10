@@ -69,7 +69,7 @@ def wikiLinksProcess():
     jsonWikiLinks = json.dumps(getWikiLinks(searchRequest), indent=0)
     return (jsonWikiLinks)
 
-#Return
+#Return a Json of twitter positivities
 @app.route('/twitterProcess', methods=['POST'])
 def twitterProcess():
     searchRequest = request.form["text"]

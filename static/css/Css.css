@@ -124,6 +124,19 @@ html{
   background-color: #000;
 }
 
+.highScores{
+  height: 100%;
+  color: white;
+  font-size: x-large;
+  border: 10px solid #f3270c;
+  float: left;
+}
+
+.highScoreInputContainer{
+  float: left;
+  border: 5px solid green;
+}
+
 #scoreNumber{
   font-size:xx-large;
 }
