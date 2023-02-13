@@ -72,7 +72,6 @@ html{
 
 .fade-in {
   text-align: center;
-  background-color: green;
   animation: fadeIn ease 10s;
   -webkit-animation: fadeIn ease 10s;
   -moz-animation: fadeIn ease 10s;
@@ -92,7 +91,7 @@ html{
 .pacManBody{
   width: 100%;
   height: 100%;
-  background: linear-gradient(to right, black, #001,grey);
+  background: black;
   margin: 0;
 }
 
@@ -128,13 +127,12 @@ html{
   height: 100%;
   color: white;
   font-size: x-large;
-  border: 10px solid #f3270c;
   float: left;
 }
 
 .highScoreInputContainer{
-  float: left;
-  border: 5px solid green;
+  float: right;
+  color: white;
 }
 
 #scoreNumber{
@@ -269,7 +267,7 @@ html{
 #cy{
   width: 100%;
   height: 100%;
-  font-size: 14;
+  font-size: 20;
   display: block;
   background-color: #fff000;
 }
