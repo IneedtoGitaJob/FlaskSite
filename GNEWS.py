@@ -1,49 +1,82 @@
-from GoogleNews import GoogleNews
-import requests
 import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
 import urllib.request
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
-from concurrent.futures import ThreadPoolExecutor
 from datetime import date
-from Scweet.scweet import scrape
-import re
+import asyncio
+import aiohttp
+from googlesearch import search
+import time
 
-# Calls: GetDecodedUrlPositivity
-# sets up the array of urls to be processed
-def multiProcessList(rawUrlList):
-    # On each element call GetDecodedUrlPositivity
-    with ThreadPoolExecutor(max_workers=70) as p:
-        listOfAveragePositivityForEachWebsite = list(
-            p.map(GetDecodedUrlPositivity, rawUrlList)
-        )
-    return listOfAveragePositivityForEachWebsite
-
-
-# Calls: GetPositivity
-# Function called on each array element
-def GetDecodedUrlPositivity(rawUrl):
+#Fetch the html of a single url
+async def fetch(session, url):
     try:
-        # Decode URL
-        res = requests.get("http://" + str(rawUrl), timeout=5)
-        # Get the positivity of the selected URL
-        return GetPositivity(res.url)
-    # If we can't connect we will return an arbitrary negative number that will be filtered out later
+        async with session.get(url, timeout=5,            headers={
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36"
+            }) as response:
+            return await response.text()
     except Exception:
-        return -2
+
+        return("Fail")
 
 
-# Calls: None
-# Creates and returns a list of encoded URLs
-def GetEncodedUrlList(searchTopic, Years):
-    current_year = date.today().year
-    googlenews = GoogleNews(
-        start="01/01/" + str(current_year - Years), end="12/28/" + str(current_year)
-    )
-    googlenews.get_news(searchTopic)
-    rawUrlList = googlenews.get_links()
-    return rawUrlList
+#Settup Async tasks and Fetch the html of every webpage by calling fetch on it
+async def fetchAll(urls):
+    async with aiohttp.ClientSession() as session:
+        tasks = []
+        for url in urls:
+            task = asyncio.ensure_future(fetch(session, url))
+            tasks.append(task)
+        responses = await asyncio.gather(*tasks)
+        return responses
+
+# Creates and returns a list of URLs
+def getUrls(searchRequest, years):
+    listOfUrls = []
+    currentYear = date.today().year
+    earliestYear = str(currentYear - years)
+    #iterate over Search request
+    for url in search((searchRequest+" after:"+earliestYear+"-01-01"), num_results=40):
+        listOfUrls.append(url)
+    return listOfUrls
+
+#start event loop to asynchronously connect to urls and then iterate over the responses to find the positivites
+def getPositivityNews(urls):
+    positivities = []
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    responses = loop.run_until_complete(fetchAll(urls))
+    time.sleep(0.1)
+    sia = SentimentIntensityAnalyzer()
+
+    for html in responses:
+        positivities.append(getPositivity(html, sia))
+    return positivities
+
+def getPositivity(html,sia):
+    sentiment = 0.0
+    num = 0
+    positivity = -1
+    soup = BeautifulSoup(html, "html.parser")
+    # Get the positivity of the website
+    for data in soup.find_all("p"):
+        compound = sia.polarity_scores(data.get_text())["compound"]
+        # ignore neutral sentences
+        if compound != 0:
+            # add 1 to count and add to sentiment total
+            num = num + 1
+            sentiment = sentiment + compound
+
+    # If we were able to successfully analyze the website
+    if num != 0:
+        # return as a number between 0-100
+        if sentiment >= 0:
+            positivity = round(50 * (sentiment / num)) + 50
+        else:
+            positivity = 50 - (round(50 * (sentiment / num)) * -1)
+    # If we were able to connect but were unable to analyze the website we will return -1
+    return positivity
 
 
 # Calls: None

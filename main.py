@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from GNEWS import DisplayPositivity, GetEncodedUrlList, multiProcessList
+from GNEWS import DisplayPositivity, getUrls, getPositivityNews
 from twitterPositivity import getTwitterPositivity
 from wikiLinks import getWikiLinks
 from pacMan import updateScores
@@ -53,21 +53,20 @@ def backgroundWebProcess():
 # Get Positivity of a series News stories
 @app.route("/backgroundNewsProcessMulti", methods=["POST"])
 def backgroundManyWebProcessMulti():
-    if __name__ == "__main__":
         searchTopic = request.form["text"]
         Years = request.form["Years"]
 
         # list of Average Positivities for each News Year
         averagePositivity = []
 
-        # GetEncoded URList, URLs are considered encoded as they aren't a link and must be processed later
-        EncodedurlList = GetEncodedUrlList(searchTopic, int(Years))
+        # Get list of urls to be checked
+        urlList = getUrls(searchTopic, int(Years))
 
         # Input: encoded List of encoded Urls
-        # Process 1: decodes list of Urls
-        # Process 2: Gets Positivity of Urls
-        # Output: List of all the positivities of all News years
-        averagePositivity = multiProcessList(EncodedurlList)
+        # Process 1: connects to each url
+        # Process 2: Gets Positivity of each url
+        # Output: List of all the positivities within the news year range
+        averagePositivity = getPositivityNews(urlList)
 
         # Remove all articles that failed to connect or that had no text
         averagePositivity = [pos for pos in averagePositivity if pos > 0]
@@ -75,10 +74,9 @@ def backgroundManyWebProcessMulti():
         # If we failed to find any News Stories return a Fail
         if len(averagePositivity) == 0:
             return "Fail"
+        #Else stringify average positivity and return
         return " ".join(str(x) for x in averagePositivity)
 
-    # If we are Not Running on main Fail as we need to use multithreading
-    return "Fail"
 
 
 # Return a Json of Wikipedia Links

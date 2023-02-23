@@ -2,7 +2,6 @@ import urllib.request
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import re
-import json
 import time
 # WIP
 # return an img url of an img that appears on the wiki page
@@ -83,4 +82,4 @@ def getWikiLinks(searchRequest):
     # convertWikipediaLinkToImageLink(dictionaryOfLinks)
     return dictionaryOfLinks
 
-getWikiLinks("Cheese")
+#getWikiLinks("Cheese")

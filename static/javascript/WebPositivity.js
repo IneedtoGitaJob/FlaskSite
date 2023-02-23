@@ -1,6 +1,6 @@
 //Calls: None
 //Fills a load bar arbitrarily, the load bar isn't actually related to progress and is instead a way to show the user that the website is still working 
-function LoadBar(loadBarTimeInterval)
+function loadBar(loadBarTimeInterval)
 {
 
 	document.getElementById("submitButton").disabled = true;
@@ -49,7 +49,7 @@ function checkWeb(TextInput)
 {
 	canvas = RefreshCanvas();
 
-	$(document).ajaxStart(LoadBar(40));
+	$(document).ajaxStart(loadBar(40));
 
 	$.ajax(
 	{
@@ -88,7 +88,7 @@ function checkManyWebs(TextInput, yearsInput)
 
 	canvas = RefreshCanvas();
 
-	$(document).ajaxStart(LoadBar(200));
+	$(document).ajaxStart(loadBar(100));
 
 	//Get a String of News positivity
 	$.ajax(
@@ -207,7 +207,7 @@ function checkManyWebs(TextInput, yearsInput)
 function checkTwitter(TextInput, yearsInput)
 {
 	canvas = RefreshCanvas();
-	$(document).ajaxStart(LoadBar(200));
+	$(document).ajaxStart(loadBar(100));
 
 	$.ajax(
 	{
@@ -362,7 +362,13 @@ function VerifyYears(yearsInput)
 //Clears Canvas
 function RefreshCanvas()
 {
-	var canvas = document.getElementById("Canvas");
-	canvas.width += 0
-	return (canvas)
+  //Create A New Canvas 
+  var CanvasToBeDestroyed = document.getElementById("Canvas");
+  CanvasToBeDestroyed.remove();
+  var Container = document.getElementById("Container");
+  var canvas = document.createElement("Canvas");
+  canvas.className = "Canvas"
+  canvas.id = "Canvas"
+  Container.appendChild(canvas)
+  return(canvas)
 }
