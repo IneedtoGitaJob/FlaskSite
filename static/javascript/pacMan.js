@@ -1,7 +1,6 @@
 var scores;
 $(document).ready(function()
 {
-	alert(scores.scores[4].Score);
 	$.getJSON("../static/Json/Scores.json", function(result)
 	{
 		scores = JSON.parse(JSON.stringify(result));
