@@ -1,6 +1,7 @@
 var scores;
 $(document).ready(function()
 {
+	alert(scores.scores[4].Score);
 	$.getJSON("../static/Json/Scores.json", function(result)
 	{
 		scores = JSON.parse(JSON.stringify(result));
@@ -15,7 +16,6 @@ function fillHighScores(scores)
 
 	for (i in scores.scores)
 	{
-		console.log(score.scores)
 		const name = scores.scores[i].Name;
 		const Score = scores.scores[i].Score;
 
@@ -61,10 +61,10 @@ audio.muted = true;
 var moveInformation = {
 	//28 by 31 start at [23, 15]
 	/*
-	0 is wall 
-	1 is pellet 
+	0 is wall
+	1 is pellet
 	2 is big pellet
-	3 is eaten 
+	3 is eaten
 	*/
 	map: [
 		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //0
@@ -118,7 +118,7 @@ function Sprite(spriteName, location, left, top, direction)
 	this.direction = direction;
 }
 
-//Constructor for Ghosts 
+//Constructor for Ghosts
 function Ghost(spriteName, location, left, top, direction)
 {
 	this.img = document.getElementById(spriteName);
@@ -288,7 +288,7 @@ function GhostMove(Ghost)
 	//Check to see if we are currently in the same space as Pacman
 	pacManGhostCollisionHandle(Ghost);
 
-	//We don't want ghosts always just moving forwards in a straight line this behavior is too predictable so we introduce a chance to at any moment move randomly in a new direction 
+	//We don't want ghosts always just moving forwards in a straight line this behavior is too predictable so we introduce a chance to at any moment move randomly in a new direction
 	let randomlyMove = Math.floor(Math.random() * 3);
 
 	if (randomlyMove != 0)
@@ -470,7 +470,7 @@ function PinkyMove()
     if(((Pinky.location[0] - pacManObj.location[0]) < 0))
     {
         GhostMoveDown(Pinky);
-        
+
     }
 
         //move up
@@ -490,7 +490,7 @@ function PinkyMove()
     {
         GhostMoveRight(Pinky);
     }
-    pacManGhostCollisionHandle(Pinky); 
+    pacManGhostCollisionHandle(Pinky);
 
 }
 */
@@ -597,7 +597,7 @@ function removePellet()
 			const scores = JSON.parse(JSON.stringify(result));
 			let currentPlayerscore = parseInt(document.getElementById("scoreNumber").innerHTML);
 			//If the player score is lower than all current highscores we do not update the highscore JSON
-			if ((scores.scores[9].Score < currentPlayerscore))
+			if ((scores.scores[4].Score < currentPlayerscore))
 			{
 				EnableHighScoreInputPage(currentPlayerscore);
 			}
@@ -814,7 +814,7 @@ function updateScores()
 				score: currentPlayerscore,
 				loc: (newScoreLocation+1)
 			}
-		}).done(function(o){});
+		});
 	}
 	else
 	{
@@ -832,15 +832,13 @@ function updateScores()
 //get The location to insert the high score into by find which scores are lower than the current player score
 function getNewScoreLocation(currentPlayerscore)
 {
-
     //Find the location for highscore insertion
-	for (let i = 9; i >= 0; i--)
+	for (let i = 4; i >= 0; i--)
 	{
-		if (currentPlayerscore < scores.scores[i].Score)
+		if (currentPlayerscore < Number(scores.scores[i].Score))
 		{
-            return i;
+            return (i+1);
 		}
 	}
-
 	return 0;
 }
