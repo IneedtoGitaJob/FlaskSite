@@ -4,7 +4,7 @@ import json
 
 def updateScores(name, score, loc):
     #open json file and read values to a dic
-    f = open("D:\getText\static\Json\Scores.json", "r")
+    f = open("/home/DustlessSteak/mysite/static/Json/Scores.json", "r")
     #read and store
     currentScores = f.read()
     #close
@@ -22,6 +22,7 @@ def updateScores(name, score, loc):
     #Delete the player with the lowest score
     del bList[-1]
 
-    f2 = open("D:\getText\static\Json\Scores.json", "w")
+
+    f2 = open("/home/DustlessSteak/mysite/static/Json/Scores.json", "w")
     f2.write("{\"scores\": "+json.dumps(bList)+"}")
     f2.close()
