@@ -807,11 +807,10 @@ function updateScores()
 			url: "/pacManUpdateScores",
 			type: "POST",
 			data:
-			{   nameToBeChanged: scores.scores[newScoreLocation].Name,
-                scoreToBeChanged: scores.scores[newScoreLocation].Score,
+			{
 				name: nameInput,
 				score: currentPlayerscore,
-				loc: (newScoreLocation+1)
+				loc: newScoreLocation
 			}
 		});
 	}
