@@ -28,12 +28,10 @@ def pacMan():
 # pacman file write
 @app.route("/pacManUpdateScores", methods=["POST"])
 def pacManWebProcess():
-    nameToBeChanged = request.form["nameToBeChanged"]
-    scoreToBeChanged = request.form["scoreToBeChanged"]
     name = request.form["name"]
     score = request.form["score"]
     loc = request.form["loc"]
-    updateScores(nameToBeChanged, scoreToBeChanged, name, score, loc)
+    updateScores(name, score, loc)
     return "1"
 
 
